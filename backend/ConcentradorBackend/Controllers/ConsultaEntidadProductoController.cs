@@ -1,9 +1,11 @@
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using ConcentradorBackend.Dtos.Request;
 using ConcentradorBackend.Interfaces;
 using ConcentradorBackend.Models;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+
+
 
 namespace ConcentradorBackend.Controllers
 {
@@ -11,7 +13,7 @@ namespace ConcentradorBackend.Controllers
     [Route("api/[controller]")]
     public class ConsultaController : Controller
     {
-
+        
         private readonly IConsultaProductoService _consultaProductoService;
 
         public ConsultaController(IConsultaProductoService consultaProductoService)
@@ -34,8 +36,9 @@ namespace ConcentradorBackend.Controllers
         }
         [HttpPost]
         [Route("prospecto")]
-        public Dtos.Response.ResponseGeneric  Post(Prospecto request)
+        public Dtos.Response.ResponseGeneric Post([FromBody] Prospecto request)
         {
+           
             return _consultaProductoService.create(request);
         }
 

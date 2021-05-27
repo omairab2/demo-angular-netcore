@@ -17,7 +17,7 @@ namespace ConcentradorBackend.DataAccess
     public class ConsultaProductoDataAccessLayer : IConsultaProductoService
     {
         private readonly ConcentradorDBContext _dbContext;
-        readonly IConsultaProductoService _consultaProductoService;
+     
 
         public ConsultaProductoDataAccessLayer(ConcentradorDBContext dbContext)
         {
@@ -125,12 +125,16 @@ namespace ConcentradorBackend.DataAccess
                         connection.Close();
                     }
 
-
+                    res.codError = 0;
+                    res.messagge = "Registro Exitoso"; 
                 }
 
             }
             catch
             {
+
+                res.codError = -1;
+                res.messagge = "Ha ocurrido un error";
                 throw;
 
             }

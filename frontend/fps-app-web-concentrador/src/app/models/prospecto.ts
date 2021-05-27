@@ -1,9 +1,14 @@
 export class Prospecto {
-    nombres: string;
-    apellidos: string;
-    tipoDocumentoId: number;
-    numeroDocumento: string;
-    email: string;
-    numeroCelular: string;
-    departamentoId: number;
+
+    prospectoId: 0
+    nombres: string
+    apellidos: string
+    tipoDocumentoId: 0
+    numeroDocumento: string
+    email: string
+    numeroCelular: string
+    departamentoId: 0
+    fechaRegistro: Date
+    activo: true
+
 }

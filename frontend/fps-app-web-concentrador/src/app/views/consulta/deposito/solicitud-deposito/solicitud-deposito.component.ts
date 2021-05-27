@@ -43,24 +43,36 @@ export class SolicitudDepositoComponent implements OnInit {
 
 
   guardar() {
-    const data = new Prospecto();
-    data.nombres = this.form.value.nombre;
-    data.apellidos = this.form.value.apellido;
-    data.tipoDocumentoId = this.form.value.tipoDocumentoId;
-    data.departamentoId = this.form.value.departamentoId;
-    data.email = this.form.value.email;
-    data.numeroDocumento = this.form.value.numeroDocumento;
-    data.numeroCelular = this.form.value.celular;
-    this.prospectoService.save(data).subscribe(() => {
-      Swal.fire({
-        position: 'center',
-        icon: 'success',
-        title: 'Su informacion fue enviada',
-        text: 'Por favor espere a que le contactemos, gracias.',
-        showConfirmButton: true
-      }).then((result) => {
-        this.router.navigate(['/home']);
-      });
+    const data = {
+      "prospectoId": 0,
+      "nombres": this.form.value.nombre,
+      "apellidos": this.form.value.apellido,
+      "tipoDocumentoId": this.form.value.tipoDocumentoId,
+      "numeroDocumento": this.form.value.numeroDocumento,
+      "email": this.form.value.email,
+      "numeroCelular": this.form.value.celular,
+      "departamentoId": this.form.value.departamentoId,
+      "fechaRegistro": new Date,
+      "activo": true
+    }
+    if (!data.nombres && !data.apellidos && !data.numeroCelular) {
+      Swal.fire("", "Debe completar alguno de los campos", "error");
+      return;
+    }
+    this.prospectoService.save(data).subscribe((res: any) => {
+      if (res.codError != 0) {
+        Swal.fire("", res.message, "error")
+      } else {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Su informacion fue enviada",
+          text: "Por favor espere a que le contactemos, gracias.",
+          showConfirmButton: true,
+        }).then((result) => {
+          this.router.navigate(["/home"]);
+        });
+      }
     });
   }
 

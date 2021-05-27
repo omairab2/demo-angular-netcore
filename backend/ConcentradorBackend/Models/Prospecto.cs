@@ -1,9 +1,12 @@
-using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ConcentradorBackend.Models
 {
+    [Table("Prospecto")]
     public partial class Prospecto
     {
+        [Key]
         public int ProspectoId { get; set; }
         public string Nombres { get; set; }
         public string Apellidos { get; set; }
