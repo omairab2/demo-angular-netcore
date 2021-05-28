@@ -47,16 +47,17 @@ export class SolicitudPrestamoComponent implements OnInit {
       "prospectoId": 0,
       "nombres": this.form.value.nombre,
       "apellidos": this.form.value.apellido,
-      "tipoDocumentoId": this.form.value.tipoDocumentoId,
+      "tipoDocumentoId": 1,
       "numeroDocumento": this.form.value.numeroDocumento,
       "email": this.form.value.email,
       "numeroCelular": this.form.value.celular,
-      "departamentoId": this.form.value.departamentoId,
+      "departamentoId": 1,
       "fechaRegistro": new Date,
       "activo": true
     }
 
-    if (!data.nombres && !data.apellidos && !data.numeroCelular) {
+    if (!data.nombres || !data.apellidos || !data.numeroCelular ||
+      !data.email || !data.tipoDocumentoId || !data.numeroDocumento) {
       Swal.fire("", "Debe completar alguno de los campos", "error");
       return;
     }

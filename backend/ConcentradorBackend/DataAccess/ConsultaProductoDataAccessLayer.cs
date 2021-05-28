@@ -10,7 +10,8 @@ using ConcentradorBackend.Util;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-
+using System.Configuration;
+using Microsoft.Extensions.Configuration;
 
 namespace ConcentradorBackend.DataAccess
 {
@@ -23,7 +24,20 @@ namespace ConcentradorBackend.DataAccess
         {
             _dbContext = dbContext;
         }
-        public Microsoft.Extensions.Configuration.IConfiguration Configuration { get; }
+        public static IConfiguration Configuration { get; set; }
+
+        private string GetConnectionString()
+        {
+            var builder = new ConfigurationBuilder()
+            .SetBasePath(System.IO.Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json");
+
+            Configuration = builder.Build();
+
+            return Configuration.GetConnectionString("DefaultConnection");
+
+        }
+
         
 
         public List<ConsultaEntidadProducto> consulta(ConsultaProductoFinancieroRequest request, int pagina)
@@ -109,9 +123,10 @@ namespace ConcentradorBackend.DataAccess
         public Dtos.Response.ResponseGeneric create(Prospecto request)
         {
             var res = new Dtos.Response.ResponseGeneric();
+            var conecction = GetConnectionString();
             try
             {
-                string connectionString = "Data Source=OBERROTERAN,1433;Database=concentracion;User ID=sa;Password=1234;MultipleActiveResultSets=true;";
+                string connectionString = conecction;
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     string sql = $"Insert Into Prospecto(Nombres, Apellidos, TipoDocumentoId, NumeroDocumento, Email, NumeroCelular,DepartamentoId,FechaRegistro,Activo) Values('{request.Nombres}', '{request.Apellidos}', '{request.TipoDocumentoId}', '{request.NumeroDocumento}', '{request.Email}', '{request.NumeroCelular}','{request.DepartamentoId}','{request.FechaRegistro}', '{request.Activo}')";
